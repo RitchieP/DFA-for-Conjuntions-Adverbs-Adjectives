@@ -17,7 +17,7 @@ method to detect words.
 It is also worth noting that the DFA in this program is basically a map of characters to their possible next states. 
 Example below.
 
-```json
+```json lines
 {
     // Current state available options and their respective possible next states.
     0: {
