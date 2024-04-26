@@ -7,6 +7,12 @@ class DFA:
         self.final_state = final_state
 
     def run(self, input_string):
+        """
+        Runs the DFA to detect for the languages defined.
+
+        :param input_string: String to be processed
+        :return: A list of detected strings
+        """
         detected_words = []
         i = 0
         # Starting index of a word that is possible to be detected by the DFA.
@@ -67,6 +73,12 @@ class DFA:
 
 
 def generate_dfa(words):
+    """
+    Generates a DFA based on the list of words of a language passed in.
+
+    :param words: List[String] A list of strings to generate a DFA.
+    :return: A DFA class.
+    """
     alphabet = set("abcdefghijklmnopqrstuvwxyz ")
     states = set(range(len(words) + 1))
     transitions = {}
@@ -92,13 +104,3 @@ def generate_dfa(words):
         final_state.add(current_state)
 
     return DFA(alphabet, states, transitions, start_state, final_state)
-
-
-def remove_punctuation(input_string):
-    punc = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
-    res = ""
-
-    for char in input_string:
-        if char not in punc:
-            res += char
-    return res

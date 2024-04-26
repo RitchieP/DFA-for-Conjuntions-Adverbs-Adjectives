@@ -1,5 +1,23 @@
 import dfa
-from dfa import generate_dfa, remove_punctuation
+from dfa import generate_dfa
+
+
+def input_normalization(input_string):
+    """
+    Normalize input string by removing punctuations and change all alphabets to become lower case.
+
+    :param input_string: String to be normalized
+    :return: String, normalized
+    """
+    punc = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+    res = ""
+
+    for char in input_string:
+        if char not in punc:
+            res += char
+
+    return res.lower()
+
 
 if __name__ == '__main__':
     # Reading in the list of stop words to generate a DFA
@@ -28,8 +46,8 @@ if __name__ == '__main__':
     input_string = demo_text
 
     # Removes all punctuation from strings
-    input_string = remove_punctuation(input_string)
+    input_string = input_normalization(input_string)
     # Print out the detected language
-    print("Adjectives detected:", adjectives_dfa.run(input_string.lower()))
-    print("Adverbs detected:", adverbs_dfa.run(input_string.lower()))
-    print("Conjunctions detected:", conjunctions_dfa.run(input_string.lower()))
+    print("Adjectives detected:", adjectives_dfa.run(input_string))
+    print("Adverbs detected:", adverbs_dfa.run(input_string))
+    print("Conjunctions detected:", conjunctions_dfa.run(input_string))
