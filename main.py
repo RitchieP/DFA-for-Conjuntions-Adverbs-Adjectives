@@ -1,5 +1,8 @@
+from typing import Type
+
 import dfa
 from dfa import generate_dfa
+from collections import Counter
 
 
 def input_normalization(input_string):
@@ -17,6 +20,23 @@ def input_normalization(input_string):
             res += char
 
     return res.lower()
+
+
+def dfa_data(dfa_obj: Type[dfa.DFA], input_string, language_type=""):
+    """
+    Function to print out the words detected by the DFA that the user passes into.
+
+    :param dfa_obj: An object of the DFA class
+    :param input_string: The input string to be processed
+    :param language_type: [Optional] Specifies what is the name of the language to be printed out. Defaults to "" if not
+    specified.
+    :return: Void
+    """
+    words_detected = dfa_obj.run(input_string)
+    words_dict = Counter(words_detected)
+    print(language_type, "detected :", words_detected)
+    for key in words_dict:
+        print(key, words_dict[key])
 
 
 if __name__ == '__main__':
@@ -48,6 +68,6 @@ if __name__ == '__main__':
     # Removes all punctuation from strings
     input_string = input_normalization(input_string)
     # Print out the detected language
-    print("Adjectives detected:", adjectives_dfa.run(input_string))
-    print("Adverbs detected:", adverbs_dfa.run(input_string))
-    print("Conjunctions detected:", conjunctions_dfa.run(input_string))
+    dfa_data(adjectives_dfa, input_string, language_type="Adjectives")
+    dfa_data(adverbs_dfa, input_string, language_type="Adverbs")
+    dfa_data(conjunctions_dfa, input_string, language_type="Conjunctions")

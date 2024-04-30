@@ -21,6 +21,12 @@ class DFA:
         current_state = self.start_state
 
         while True:
+            # If i is already at the last character, exit the function and return the detected words.
+            if i == string_length:
+                if current_state in self.final_state:
+                    detected_words.append(input_string[j:i])
+                return detected_words
+
             # If the character is not part of the accepted alphabet set. We just skip it, and move the j index.
             if input_string[i] not in self.alphabet:
                 i = input_string.find(' ', i) + 1
@@ -67,9 +73,6 @@ class DFA:
                 continue
             i += 1
 
-            # If i is already at the last character, exit the function and return the detected words.
-            if i == string_length:
-                return detected_words
 
 
 def generate_dfa(words):
@@ -80,7 +83,7 @@ def generate_dfa(words):
     :return: A DFA class.
     """
     alphabet = set("abcdefghijklmnopqrstuvwxyz ")
-    states = set(range(len(words) + 1))
+    states = {0}
     transitions = {}
     start_state = 0
     final_state = set()
