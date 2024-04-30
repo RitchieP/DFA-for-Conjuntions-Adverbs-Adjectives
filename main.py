@@ -1,4 +1,5 @@
 from typing import Type
+import tkinter as tk
 
 import dfa
 from dfa import generate_dfa
@@ -30,13 +31,28 @@ def dfa_data(dfa_obj: Type[dfa.DFA], input_string, language_type=""):
     :param input_string: The input string to be processed
     :param language_type: [Optional] Specifies what is the name of the language to be printed out. Defaults to "" if not
     specified.
-    :return: Void
+    :return: A dictionary of words detected, and their number of occurrences.
     """
     words_detected = dfa_obj.run(input_string)
     words_dict = Counter(words_detected)
     print(language_type, "detected :", words_detected)
     for key in words_dict:
         print(key, words_dict[key])
+    return words_dict
+
+
+def process(master, adjective_dfa, adverbs_dfa, conjunctions_dfa, input_string):
+
+    detected_languages = {
+        "Adjectives": dfa_data(adjective_dfa, input_string, language_type="Adjective"),
+        "Adverbs": dfa_data(adverbs_dfa, input_string, language_type="Adverbs"),
+        "Conjunctions": dfa_data(conjunctions_dfa, input_string, language_type="Conjunction")
+    }
+
+    for languages, data in detected_languages.items():
+        tk.Label(master, text=languages, font=("calibre", 10, "bold")).pack()
+        for key, number in data.items():
+            tk.Label(master, text=f"{key}: {number}").pack()
 
 
 if __name__ == '__main__':
@@ -57,17 +73,16 @@ if __name__ == '__main__':
     adverbs_dfa = generate_dfa(adverbs)
     conjunctions_dfa = generate_dfa(conjunctions)
 
-    # Read in the demo text to perform testing of the DFA
-    demo_text_file = open("./demo text/demo_text_1.txt")
-    try:
-        demo_text = demo_text_file.read()
-    finally:
-        demo_text_file.close()
-    input_string = demo_text
-
-    # Removes all punctuation from strings
-    input_string = input_normalization(input_string)
-    # Print out the detected language
-    dfa_data(adjectives_dfa, input_string, language_type="Adjectives")
-    dfa_data(adverbs_dfa, input_string, language_type="Adverbs")
-    dfa_data(conjunctions_dfa, input_string, language_type="Conjunctions")
+    root = tk.Tk()
+    input_var = tk.StringVar()
+    root.minsize(500, 500)
+    root.title("CPT411 Assignment One Demonstration")
+    tk.Entry(root, width=50, textvariable=input_var).pack()
+    tk.Button(
+        master=root,
+        text="Process",
+        command=lambda: process(root, adjectives_dfa, adverbs_dfa, conjunctions_dfa, input_var.get())
+    ).pack()
+    title_label = tk.Label(root, text="Detected words, and their number of occurences.")
+    title_label.pack()
+    root.mainloop()
