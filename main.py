@@ -81,7 +81,7 @@ if __name__ == '__main__':
     tk.Button(
         master=root,
         text="Process",
-        command=lambda: process(root, adjectives_dfa, adverbs_dfa, conjunctions_dfa, input_var.get())
+        command=lambda: process(root, adjectives_dfa, adverbs_dfa, conjunctions_dfa, input_normalization(input_var.get()))
     ).pack()
     title_label = tk.Label(root, text="Detected words, and their number of occurences.")
     title_label.pack()
