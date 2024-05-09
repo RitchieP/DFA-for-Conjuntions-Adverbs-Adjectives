@@ -25,7 +25,7 @@ def input_normalization(input_string):
 
 def dfa_data(dfa_obj: Type[dfa.DFA], input_string, language_type=""):
     """
-    Function to print out the words detected by the DFA that the user passes into.
+    Function to summarize and print out the words detected by the DFA that the user passes into.
 
     :param dfa_obj: An object of the DFA class
     :param input_string: The input string to be processed
@@ -42,6 +42,17 @@ def dfa_data(dfa_obj: Type[dfa.DFA], input_string, language_type=""):
 
 
 def process(master, adjective_dfa, adverbs_dfa, conjunctions_dfa, input_string):
+    """
+    Function to be used with Tkinter's button command. It will pass the string from the user input and all the DFAs
+    associated with it.
+
+    :param master: Root of the Tkinter window
+    :param adjective_dfa: Adjective's DFA generated
+    :param adverbs_dfa: Adverb's DFA generated
+    :param conjunctions_dfa: Conjunction's DFA generated
+    :param input_string: The string variable that was input by the user from the Tkinter Entry widget.
+    :return: Void. It will show the outputs on the Tkinter window.
+    """
 
     detected_languages = {
         "Adjectives": dfa_data(adjective_dfa, input_string, language_type="Adjective"),
